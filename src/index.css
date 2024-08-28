@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(24, 24, 37);
 }
 
 code {
@@ -16,5 +17,20 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100ch;
+  color: brown;
+  font-size: 5vh;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 8vh);
+  grid-template-rows: repeat(8, 8vh);
+  gap: 2vh;
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(17, 17, 27);
 }
