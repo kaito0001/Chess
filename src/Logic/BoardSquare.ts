@@ -59,4 +59,8 @@ export default class BoardSquare {
   isFriend(player: Players): boolean {
     return this.currentPiece.getPlayer() === player;
   }
+
+  isEnemy(player: Players): boolean {
+    return !this.isEmpty() && !this.isFriend(player);
+  }
 }

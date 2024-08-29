@@ -14,7 +14,8 @@ export enum Players {
 export interface PieceInterface {
   setName: () => void;
   getName: () => string;
-  getPlayer: () => number;
+  getID: () => number;
+  getPlayer: () => Players;
   setPostion: (position: Position) => void;
   getPosition: () => Position;
   killedAPiece: () => void;

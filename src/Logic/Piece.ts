@@ -17,39 +17,30 @@ export default abstract class Piece implements PieceInterface {
     this.player = player;
   }
 
+  abstract setName(): void;
+  abstract canMove(squares: BoardSquare[][]): Position[];
   die(): void {
     this.isAlive = false;
   }
-
   getID(): number {
     return this.ID;
   }
-
-  abstract setName(): void;
-
   getPlayer(): Players {
     return this.player;
   }
-
   getName(): string {
     return this.name;
   }
-
-  getPosition(): Position {
-    return this.position;
-  }
-
-  killedAPiece(): void {
-    this.kills++;
-  }
-
-  getKills(): number {
-    return this.kills;
-  }
-
   setPostion(position: Position): void {
     this.position = position;
   }
-
-  abstract canMove(squares: BoardSquare[][]): Position[];
+  getPosition(): Position {
+    return this.position;
+  }
+  killedAPiece(): void {
+    this.kills++;
+  }
+  getKills(): number {
+    return this.kills;
+  }
 }

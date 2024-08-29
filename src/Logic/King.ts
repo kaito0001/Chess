@@ -1,35 +1,18 @@
 import BoardSquare from "./BoardSquare";
 import Piece from "./Piece";
-import { PieceInterface, Position } from "../utils/interfaces_enums";
+import { PieceInterface, Players, Position } from "../utils/interfaces_enums";
 
-export default class King extends Piece implements PieceInterface {
-  constructor(player: number, position: Position) {
+export default class King extends Piece {
+  constructor(player: Players, position: Position) {
     super(player, position);
     this.setName();
   }
 
-  setName(): void {
-    this.name = `${this.player === 1 ? "white" : "black"}-king`;
+  override setName(): void {
+    this.name = `${this.player === Players.white ? "white" : "black"}-king`;
   }
-  getName(): string {
-    return this.name;
-  }
-  getPlayer(): number {
-    return this.player;
-  }
-  setPostion(position: Position): void {
-    this.position = this.position;
-  }
-  getPosition(): Position {
-    return this.position;
-  }
-  killedAPiece(): void {
-    this.kills++;
-  }
-  getKills(): number {
-    return this.kills;
-  }
-  canMove(squares: BoardSquare[][]): Position[] {
+
+  override canMove(squares: BoardSquare[][]): Position[] {
     let result: Position[] = [];
     const { x, y } = this.position;
 
