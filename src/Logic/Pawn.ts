@@ -9,7 +9,9 @@ export default class Pawn extends Piece {
   }
 
   setName(): void {
-    this.name = `${this.player === Players.white ? "white" : "black"}-pawn`;
+    if (this.player === Players.none) this.name = "";
+    else
+      this.name = `${this.player === Players.white ? "white" : "black"}-pawn`;
   }
 
   canMove(squares: BoardSquare[][]): Position[] {
@@ -17,14 +19,14 @@ export default class Pawn extends Piece {
     const { x, y } = this.position;
 
     // can go up???
-    if (y < 7 && squares[x][y + 1].isEmpty()) result.push({ x, y: y + 1 });
+    if (x > 0 && squares[x - 1][y].isEmpty()) result.push({ x: x - 1, y: y });
 
     // can go north-east???
-    if (x < 7 && y < 7 && squares[x + 1][y + 1].isEnemy(this.player))
-      result.push({ x: x + 1, y: y + 1 });
+    if (x > 0 && y < 7 && squares[x - 1][y + 1].isEnemy(this.player))
+      result.push({ x: x - 1, y: y + 1 });
 
     // can go north-west???
-    if (x > 0 && y < 7 && squares[x - 1][y + 1].isEnemy(this.player))
+    if (x > 0 && y > 0 && squares[x - 1][y - 1].isEnemy(this.player))
       result.push({ x: x - 1, y: y + 1 });
 
     return result;

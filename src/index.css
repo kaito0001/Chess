@@ -33,4 +33,38 @@ code {
   justify-content: center;
   align-items: center;
   background-color: rgb(17, 17, 27);
+  position: relative; /* Needed for positioning the circle */
+  transition: opacity 0.15s;
+}
+
+.square_move {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(17, 17, 27);
+  position: relative; /* Needed for positioning the circle */
+  transition: opacity 0.15s;
+}
+
+.square_move::before {
+  content: "";
+  position: absolute;
+  width: 20%; /* Adjust the size of the circle */
+  height: 20%; /* Adjust the size of the circle */
+  background-color: grey;
+  border-radius: 50%;
+}
+
+.square:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.selected_square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(17, 17, 27);
+  cursor: pointer;
+  opacity: 0.5;
 }

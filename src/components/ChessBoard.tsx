@@ -1,47 +1,123 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WhitePiece from "./WhitePiece";
 import BlackPiece from "./BlackPiece";
+import BoardSquare from "../Logic/BoardSquare";
+import Piece from "../Logic/Piece";
+import Rook from "../Logic/Rook";
+import { Players, Position } from "../utils/interfaces_enums";
+import Knight from "../Logic/Knight";
+import Bishop from "../Logic/Bishop";
+import King from "../Logic/King";
+import Queen from "../Logic/Queen";
+import Pawn from "../Logic/Pawn";
 
-const createInitPieces = (): string[][] => {
-  let init: string[][] = [];
+const createBoardSquares = (): BoardSquare[][] => {
+  let init: BoardSquare[][] = [];
 
   for (let i: number = 0; i < 8; i++) {
     init[i] = [];
+  }
+
+  return init;
+};
+
+let initSquares: BoardSquare[][] = createBoardSquares();
+
+const createInitPieces = (): Piece[][] => {
+  let init: Piece[][] = [];
+
+  for (let i: number = 0; i < 8; i++) {
+    init[i] = [];
+    let newPiece: Piece;
     for (let j: number = 0; j < 8; j++) {
       // initialize black pieces
-      if (i === 0 && (j === 0 || j === 7)) init[i][j] = "black-rook";
-      else if (i === 0 && (j === 1 || j === 6)) init[i][j] = "black-knight";
-      else if (i === 0 && (j === 2 || j === 5)) init[i][j] = "black-bishop";
-      else if (i === 0 && j === 4) init[i][j] = "black-king";
-      else if (i === 0 && j === 3) init[i][j] = "black-queen";
-      else if (i === 1) init[i][j] = "black-pawn";
+      if (i === 0 && (j === 0 || j === 7)) {
+        newPiece = new Rook(Players.black, { x: i, y: j });
+      } else if (i === 0 && (j === 1 || j === 6)) {
+        newPiece = new Knight(Players.black, { x: i, y: j });
+      } else if (i === 0 && (j === 2 || j === 5)) {
+        newPiece = new Bishop(Players.black, { x: i, y: j });
+      } else if (i === 0 && j === 4) {
+        newPiece = new King(Players.black, { x: i, y: j });
+      } else if (i === 0 && j === 3) {
+        newPiece = new Queen(Players.black, { x: i, y: j });
+      } else if (i === 1) {
+        newPiece = new Pawn(Players.black, { x: i, y: j });
+      }
       // initialize white pieces
-      else if (i === 6) init[i][j] = "white-pawn";
-      else if (i === 7 && (j === 0 || j === 7)) init[i][j] = "white-rook";
-      else if (i === 7 && (j === 1 || j === 6)) init[i][j] = "white-knight";
-      else if (i === 7 && (j === 2 || j === 5)) init[i][j] = "white-bishop";
-      else if (i === 7 && j === 4) init[i][j] = "white-king";
-      else if (i === 7 && j === 3) init[i][j] = "white-queen";
-      else init[i][j] = "";
+      else if (i === 6) {
+        newPiece = new Pawn(Players.white, { x: i, y: j });
+      } else if (i === 7 && (j === 0 || j === 7)) {
+        newPiece = new Rook(Players.white, { x: i, y: j });
+      } else if (i === 7 && (j === 1 || j === 6)) {
+        newPiece = new Knight(Players.white, { x: i, y: j });
+      } else if (i === 7 && (j === 2 || j === 5)) {
+        newPiece = new Bishop(Players.white, { x: i, y: j });
+      } else if (i === 7 && j === 4) {
+        newPiece = new King(Players.white, { x: i, y: j });
+      } else if (i === 7 && j === 3) {
+        newPiece = new Queen(Players.white, { x: i, y: j });
+      } else newPiece = new Pawn(Players.none, { x: i, y: j });
+
+      init[i][j] = newPiece;
+      initSquares[i][j] = new BoardSquare(newPiece);
     }
   }
 
   return init;
 };
 
-let initPieces: string[][] = createInitPieces();
+let initPieces: Piece[][] = createInitPieces();
 
 export default function ChessBoard() {
   const [pieces, setPieces] = useState(initPieces);
+  const [squares, setSquares] = useState(initSquares);
+  const [isChoosedIndex, setIsChoosedIndex] = useState<Position>({
+    x: -1,
+    y: -1,
+  });
+  const [currentPlayer, setCurrentPlayer] = useState<Players>(Players.white);
+  const [availMoves, setAvailMoves] = useState<Position[]>([]);
+
+  useEffect(() => {
+    if (isChoosedIndex.x === -1) return;
+
+    const currentMoves: Position[] =
+      pieces[isChoosedIndex.x][isChoosedIndex.y].canMove(squares);
+
+    console.log(isChoosedIndex.x, isChoosedIndex.y);
+
+    setAvailMoves(currentMoves);
+    console.log(currentMoves);
+  }, [isChoosedIndex]);
 
   return (
     <div className="board">
       {pieces.map((row, i) =>
         row.map((piece, j) => {
-          if (piece.startsWith("black")) {
-            return <BlackPiece piece={piece} key={`${i}${j}`} />;
+          if (piece.getName().startsWith("black")) {
+            return (
+              <BlackPiece
+                piece={piece}
+                isChoosedIndex={isChoosedIndex}
+                setIsChoosedIndex={setIsChoosedIndex}
+                currentPlayer={currentPlayer}
+                boardSquare={squares[i][j]}
+                key={`${i}${j}`}
+              />
+            );
           } else {
-            return <WhitePiece piece={piece} key={`${i}${j}`} />;
+            return (
+              <WhitePiece
+                availMoves={availMoves}
+                piece={piece}
+                isChoosedIndex={isChoosedIndex}
+                setIsChoosedIndex={setIsChoosedIndex}
+                currentPlayer={currentPlayer}
+                boardSquare={squares[i][j]}
+                key={`${i}${j}`}
+              />
+            );
           }
         })
       )}
