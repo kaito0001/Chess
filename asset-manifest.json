@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Chess/static/css/main.04a41464.css",
+    "main.js": "/Chess/static/js/main.99e4b833.js",
+    "static/media/sprites.svg": "/Chess/static/media/sprites.ac321743fe787a39198a3393d3c58197.svg",
+    "index.html": "/Chess/index.html",
+    "main.04a41464.css.map": "/Chess/static/css/main.04a41464.css.map",
+    "main.99e4b833.js.map": "/Chess/static/js/main.99e4b833.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.04a41464.css",
+    "static/js/main.99e4b833.js"
+  ]
+}
