@@ -23,9 +23,9 @@ code {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(8, 8vh);
-  grid-template-rows: repeat(8, 8vh);
-  gap: 2vh;
+  grid-template-columns: repeat(8, 10vh);
+  grid-template-rows: repeat(8, 10vh);
+  /* gap: 2vh; */
 }
 
 .square {

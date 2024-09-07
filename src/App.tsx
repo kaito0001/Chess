@@ -1,12 +1,19 @@
-import React from "react";
-import ChessBoard from "./components/ChessBoard";
+import React, { useState } from "react";
+import {
+  initialBlackTeam,
+  initialWhiteTeam,
+  initialBoard,
+} from "./InitialData";
+import Board from "./components/Board";
 
-function App() {
+export default function App() {
+  const [whiteTeam, setWhiteTeam] = useState(initialWhiteTeam);
+  const [blackTeam, setBlackTeam] = useState(initialBlackTeam);
+  const [board, setBoard] = useState(initialBoard);
+
   return (
     <div className="App">
-      <ChessBoard />
+      <Board />
     </div>
   );
 }
-
-export default App;
